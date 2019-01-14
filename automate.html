@@ -89,10 +89,10 @@
 
     }
     .draggable {
-        cursor: grab;
+        cursor: move;
     }
     .dropper {
-        cursor: grabing;
+        cursor: grabbing;
     }
     .drop_hover {
         color: white;
@@ -128,16 +128,19 @@
     .bold {
         font-weight: bold;
     }
+    #right {
+        overflow: scroll;
+    }
     #right p {
         margin: 20px;
+        font-size: 20pt;
     }
     #right h1 {
-        font-size: 90px !important;
+        font-size: 50px !important;
         text-align: center;
     }
     .btn {
-        position: absolute;
-        float: left;
+        position: relative;
         display: inline-block;
         border-style: outset;
         background-color: gray;
@@ -148,13 +151,14 @@
         font-size: 50px;
         font-family: fatality;
         font-weight: normal;
-        padding: 10px;
-        margin: 30px;
+        padding: 3px;
+        margin: 3px;
         height: 80px;
         width: 80px;
         transition: all 1s;
         transform: rotate(0deg);
         z-index: 30;
+        cursor: cell;
     }
     .btn:hover {
         height: 90px;
@@ -162,6 +166,11 @@
         transform: rotate(45deg);
     }
     .btna {
+    padding: 3px;
+    margin: 3px;
+    height: 80px;
+    width: 80px;
+    transition: all 1s;
      animation-duration: 2s;
      animation-name: btnanim;
     animation-iteration-count: 2;
@@ -189,6 +198,34 @@
 #middlesvg {
     z-index: -1;
 }
+    #info1 {
+        opacity: 0;
+        transition: all 2s;
+        position: absolute;
+        top: 30%;
+        left: 0px;
+    }
+    #info2 {
+        opacity: 0;
+        transition: all 2s;
+        position: absolute;
+        top: 30%;
+        left: 0px;
+    }
+    #info3 {
+        opacity: 0;
+        transition: all 2s;
+        position: absolute;
+        top: 30%;
+        left: 0px;
+    }
+    #info0 {
+        opacity: 1;
+        transition: all 2s;
+        position: absolute;
+        top: 30%;
+        left: 0px;
+    }
     </style>
 </head>
 
@@ -205,7 +242,7 @@
 
     </nav>
     <section id="middle">
-    <svg id="middlesvg" height="1000" width="1000" style="z-index: -1" class="dropper">
+    <svg id="middlesvg" height="1000" width="750" style="z-index: -1" class="dropper">
      <defs>
         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
@@ -222,6 +259,7 @@
         <div class="btn" id="btn3">3</div>
     </nav>
         <br/>
+    <div id="info0" class="inf">
     <h1 class="kelly bold">Help</h1>
     <p class="kelly">
         Here are usage instructions :
@@ -242,21 +280,31 @@
     <p class="kelly">
     It's all for today !
     </p>
+    </div>
+    <div id="info1" class="inf">
+        <p>rien ici encore</p>
+    </div>
+    <div id="info2" class="inf">
+        <p>rien ici non plus</p>
+    </div>
+    <div id="info3" class="inf">
+        <p>passez votre chemin</p>
+    </div>
     </footer>
     <!-- ><script src="./dragndrop.js" type="text/javascript"></script> -->
     <script>
         const svgns = "http://www.w3.org/2000/svg";
 
         let btns = document.getElementsByClassName('btn');
-        for (n = 0; n < btns.lenght;n++){
+        for (n = 0; n < btns.length;n++){
             btns[n].addEventListener("animationstart", btnanimon, false);
             btns[n].addEventListener("animationend", endanimbtn, false);
-            btns[n].addEventListener("mousedown",btnclick);
+            btns[n].addEventListener("click",btnclick);
         }
         let btnanim = false;
 
         function endanimbtn(e) {
-            e.target.class = "btn";
+            e.target.setAttribute('class','btn');
             btnanim = false;
         }
 
@@ -264,24 +312,28 @@
             if (btnanim) {
                 return;
             }
-            e.taget.class = 'btna';
+            e.target.setAttribute('class','btna');
+            let doc = "";
+            infos = document.getElementsByClassName('inf');
+            for (j=0;j < infos.length;j++) {
+                infos[j].style.opacity = 0;
+            }
             switch (e.target.id) {
                 case 'btn0':
-                    alert('loadpage1');
+                    doc = document.getElementById('info0')
                 break;
                 case 'btn1':
-                    alert('loadpage2');
+                    doc = document.getElementById('info1')
                 break;
                 case 'btn2':
-                    alert('loadpage3');
+                    doc = document.getElementById('info2')
                 break;
                 case 'btn3':
-                    alert('loadpage4');
-                break;
-                case 'btn4':
-                    alert('loadpage5');
+                    doc = document.getElementById('info3')
                 break;
             }
+            doc.style.opacity = 1;
+
         }
 
         function btnanimon(e) {
@@ -360,8 +412,19 @@
                     line.setAttribute('stroke',"black");
                     line.setAttribute('stroke-width', 5);
                     line.setAttribute('class', 'connection');
+                    let mark = document.createElementNS(svgns,"circle");
+                    let centerx = (Number(x.getAttribute('cx'))+Number(peer.getAttribute('cx')))/2
+                    let centery = (Number(x.getAttribute('cy'))+Number(peer.getAttribute('cy')))/2
+                    centerx = (Number(x.getAttribute('cx'))+centerx)/2
+                    centery = (Number(x.getAttribute('cy'))+centery)/2
+                    mark.setAttribute('cx',centerx);
+                    mark.setAttribute('cy',centery);
+                    mark.setAttribute('stroke',"rgb(150,0,0)");
+                    mark.setAttribute('fill',"rgb(250,0,0)");
+                    mark.setAttribute('class', 'connection');
+                    mark.setAttribute('r', 20);
                     middlesvg.appendChild(line);
-
+                    middlesvg.appendChild(mark);
                 }
             }
         }
