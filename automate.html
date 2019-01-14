@@ -11,6 +11,11 @@
     src:  url(./KELLYAG.TTF);
     font-weight: 100;
         }
+        @font-face {
+    font-family: zekton;
+    src:  url(./zekton.ttf);
+    font-weight: 100;
+        }
           @font-face {
     font-family: deadjim;
     src:  url(./DEADJIM.TTF);
@@ -104,6 +109,86 @@
     .actif {
         color: green !important;
     }
+    .deadjim {
+        font-family: deadjim;
+        font-size: 20pt;
+    }
+    .fatality {
+        font-family: fatality;
+        font-size: 30pt;
+    }
+    .kelly {
+        font-family: kellyangothique;
+        font-size: 25pt;
+    }
+    .zekton {
+        font-family: zekton;
+        font-size: 25pt;
+    }
+    .bold {
+        font-weight: bold;
+    }
+    #right p {
+        margin: 20px;
+    }
+    #right h1 {
+        font-size: 90px !important;
+        text-align: center;
+    }
+    .btn {
+        position: absolute;
+        float: left;
+        display: inline-block;
+        border-style: outset;
+        background-color: gray;
+        border-style: solid;
+        border-width: 10px;
+        border-color: rgb(50,50,100);
+        color: white;
+        font-size: 50px;
+        font-family: fatality;
+        font-weight: normal;
+        padding: 10px;
+        margin: 30px;
+        height: 80px;
+        width: 80px;
+        transition: all 1s;
+        transform: rotate(0deg);
+        z-index: 30;
+    }
+    .btn:hover {
+        height: 90px;
+        width: 90px;
+        transform: rotate(45deg);
+    }
+    .btna {
+     animation-duration: 2s;
+     animation-name: btnanim;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+    }
+
+@keyframes btnanim {
+  from {
+    transform: rotate3d(1turn,0,0);
+    background-color: yellow;
+  }
+  20% {
+    transform: rotate3d(0,1turn,0);
+    background-color: red;
+  }
+  40% {
+    transform: rotate3d(0,0,1turn);
+    background-color: green;
+  }
+  to {
+    transform: rotate(0deg);
+    background-color: blue;
+  }
+}
+#middlesvg {
+    z-index: -1;
+}
     </style>
 </head>
 
@@ -130,12 +215,79 @@
     </svg>
     </section>
     <footer id="right"  style="z-index: 20">
-
-
+    <nav id="menuright">
+        <div class="btn" id="btn0">0</div>
+        <div class="btn" id="btn1">1</div>
+        <div class="btn" id="btn2">2</div>
+        <div class="btn" id="btn3">3</div>
+    </nav>
+        <br/>
+    <h1 class="kelly bold">Help</h1>
+    <p class="kelly">
+        Here are usage instructions :
+    </p>
+    <p class="zekton">
+         Click on generate state to <span class="bold">add a new state</span> in the graph
+    </p>
+    <p class="zekton">
+        Click while pressing shif on a state<span class="bold"> to destroy it</span>
+    </p>
+    <p class="zekton">
+        You can <span class="bold">drag states and drop</span> them elsewhere
+    </p>
+    <p class="zekton">
+        Double click on a state, then click on another to <span class="bold">create a transition</span>
+        from the first to the second. <span class="bold">Transition activation symbol is requested</span>
+    </p>
+    <p class="kelly">
+    It's all for today !
+    </p>
     </footer>
     <!-- ><script src="./dragndrop.js" type="text/javascript"></script> -->
     <script>
         const svgns = "http://www.w3.org/2000/svg";
+
+        let btns = document.getElementsByClassName('btn');
+        for (n = 0; n < btns.lenght;n++){
+            btns[n].addEventListener("animationstart", btnanimon, false);
+            btns[n].addEventListener("animationend", endanimbtn, false);
+            btns[n].addEventListener("mousedown",btnclick);
+        }
+        let btnanim = false;
+
+        function endanimbtn(e) {
+            e.target.class = "btn";
+            btnanim = false;
+        }
+
+        function btnclick(e) {
+            if (btnanim) {
+                return;
+            }
+            e.taget.class = 'btna';
+            switch (e.target.id) {
+                case 'btn0':
+                    alert('loadpage1');
+                break;
+                case 'btn1':
+                    alert('loadpage2');
+                break;
+                case 'btn2':
+                    alert('loadpage3');
+                break;
+                case 'btn3':
+                    alert('loadpage4');
+                break;
+                case 'btn4':
+                    alert('loadpage5');
+                break;
+            }
+        }
+
+        function btnanimon(e) {
+            btnanim = true;
+        }
+
         let gel = (id) => {return document.getElementById(id)};
         let uid = [];
         let drag = false;
