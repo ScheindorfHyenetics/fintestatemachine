@@ -465,8 +465,11 @@
                 delete connec[id];
                 for (z in connec) {
                     ind = null;
-                    while ((ind = connec[z].indexOf(id)) > -1) {
-                        delete connec[z][ind];
+                    for (dl in connec[z]) {
+                        let link = connec[z][dl][0];
+                        if (link == id) {
+                            delete connec[z][dl];
+                        }
                     }
                 }
                 delete states[id];
