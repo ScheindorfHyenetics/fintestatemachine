@@ -463,6 +463,12 @@
                 labels[id].parentNode.removeChild(labels[id]);
                 delete labels[id];
                 delete connec[id];
+                for (z in connec) {
+                    ind = null;
+                    while ((ind = connec[z].indexOf(id)) > -1) {
+                        delete connec[z][ind];
+                    }
+                }
                 delete states[id];
                 event.target.parentNode.removeChild(event.target);
                 delete uid[id];
