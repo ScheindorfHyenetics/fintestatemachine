@@ -389,8 +389,8 @@
             middlesvg.appendChild(news);
             middlesvg.appendChild(label);
             //refresh();
-            news.addEventListener("mousedown",mousedown);
-            news.addEventListener("dblclick",deplace);
+            news.addEventListener("mousedown",mousedown,true);
+            news.addEventListener("dblclick",deplace,true);
         }
 
         function purgeandrefresh() {
@@ -422,7 +422,7 @@
                     mark.setAttribute('stroke',"rgb(150,0,0)");
                     mark.setAttribute('fill',"rgb(250,0,0)");
                     mark.setAttribute('class', 'connection');
-                    mark.setAttribute('r', 20);
+                    mark.setAttribute('r', 10);
                     middlesvg.appendChild(line);
                     middlesvg.appendChild(mark);
                 }
