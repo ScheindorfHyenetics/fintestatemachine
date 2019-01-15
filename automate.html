@@ -466,7 +466,7 @@
                 for (z in connec) {
                     ind = null;
                     for (dl in connec[z]) {
-                        let link = connec[z][dl][0];
+                        let link = connec[z][dl][0].id;
                         if (link == id) {
                             delete connec[z][dl];
                         }
